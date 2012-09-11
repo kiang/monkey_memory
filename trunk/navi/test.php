@@ -15,6 +15,12 @@
  * under the License.
  */
 
+/*
+	Usage:
+		fID=593742735
+		action=[home|likes]
+*/
+
 require 'api/facebook.php';
 
 //$fID = '1093780135' ; // lock
@@ -103,12 +109,14 @@ if ( ! $user )
 */
 
 
-$cmds = array(
+$cmds = array( $action ) ;
+/*
 	'home',
 	'likes',
 	'locations',
 	'photos',
 ) ;
+*/
 
 foreach ( $cmds as $cmd )
 {
@@ -133,7 +141,7 @@ foreach ( $cmds as $cmd )
 		case 'photos':
 	}
 
-	print_r( $ftmp['data'][0] ) ;
+//	print_r( $ftmp['data'][0] ) ;
 
 	print_r( $r ) ;
 }
@@ -159,7 +167,22 @@ function filter_home( $fdatas, $fid )
 function filter_likes( $fdata )
 {
 	$r = array() ;
+	global $facebook ;
 
+	foreach( $fdata['data'] as $data )
+	{
+		$record = array(
+			'message' => $data['name'],
+			'id' => $data['id'],
+			'created_time' => $data['created_time'],
+		);
+
+		$like = ( $facebook->api('/' . $data['id'] ) ) ;
+
+		$record['link'] = $like['link'] ;
+
+		array_push( $r, $record ) ;
+	}
 
 	return array( 'likes' => $r ) ;
 }
