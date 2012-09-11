@@ -19,8 +19,8 @@ require 'api/facebook.php';
 
 // Create our Application instance (replace this with your appId and secret).
 $facebook = new Facebook(array(
-  'appId'  => '348442178577820',
-  'secret' => '00d1f3b0e25a33313fcabea8f10f86aa',
+  'appId'  => '271136786338217',
+  'secret' => '9f7f3c597dd54220470c6aed5f821fa1',
 ));
 
 // Get User ID
