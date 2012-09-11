@@ -35,9 +35,38 @@ $user = $facebook->getUser();
 if ($user) {
   try {
     // Proceed knowing you have a logged in user who's authenticated.
+	$q = $_GET['q'];
     $user_profile = $facebook->api('/me');
+//    $home_info = $facebook->api('/me/home?q=' . $q . '&type=post');
+	$home_info = $facebook->api('/me/home?q=facebook&type=post');
+	$home_data = $home_info['data'];
+	$result_post = array();
+	foreach ($home_data as $entry) {
+		$result_post[] = array('message' => $entry['message'], 'picture' => $entry['picture'], 'link' => $entry['actions'][0]['link'], 'time' => $entry['created_time']);
+	}
+	
+	
+	
+	$oauth_token = $facebook->getAccessToken();
+	$query = 'SELECT+user_id%2Cobject_id%2Cpost_id%2Cobject_type+FROM+like+WHERE+user_id%3Dme%28%29';
+	
+	$url = 'https://api.facebook.com/method/fql.query?access_token=' . $oauth_token . '&query=' . $query;
+	$ch = curl_init(); 
+	curl_setopt($ch, CURLOPT_URL, $url); 
+	curl_setopt($ch, CURLOPT_HEADER, TRUE); 
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+	$head = curl_exec($ch);
+	var_dump($head);
+	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	curl_close($ch); 
+
+	echo '<pre>';
+	var_dump(json_encode(array('post' => $result_post, 'checkins' => $result_checkins)));
+	echo '</pre>';
+
+
   } catch (FacebookApiException $e) {
-    error_log($e);
+    var_dump($e);
     $user = null;
   }
 }
@@ -46,7 +75,8 @@ if ($user) {
 if ($user) {
   $logoutUrl = $facebook->getLogoutUrl();
 } else {
-  $loginUrl = $facebook->getLoginUrl();
+	$params = array('scope' => 'read_stream');
+  $loginUrl = $facebook->getLoginUrl($params);
 }
 
 // This call will always work since we are fetching public data.
@@ -69,7 +99,6 @@ $naitik = $facebook->api('/naitik');
     </style>
     </head>
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
