@@ -45,8 +45,11 @@ if ($user) {
 	$home_data = $home_info['data'];
 	$result_post = array();
 	foreach ($home_data as $entry) {
-		//var_dump($entry);
-		$result_post[] = array('message' => $entry['message'], 'picture' => $entry['picture'], 'link' => $entry['link'], 'time' => date('Y/M/d h:m:s', strtotime($entry['created_time'])));
+		$msg = $entry['message'];
+		if (empty($msg)) {
+			$msg = $entry['story'];
+		}
+		$result_post[] = array('message' => $msg, 'picture' => $entry['picture'], 'link' => $entry['link'], 'time' => date('Y/M/d h:m:s', strtotime($entry['created_time'])));
 	}
 	
 	// likes
