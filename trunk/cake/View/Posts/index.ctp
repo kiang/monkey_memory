@@ -36,7 +36,7 @@ function filter_home( $fdatas, $fid )
 
 echo <<<EOF
 	<div class="item">
-		<div class="shadow"></div>
+		<div class="shadow" style="height: 200px"></div>
 		<div class="data">
 			<div class="time">$time</div>
 			<a target="_blank" href="$link"><img src="$imgUrl"></a>

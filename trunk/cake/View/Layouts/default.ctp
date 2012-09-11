@@ -106,6 +106,39 @@ if ($user) {
     });
   });
 </script>
+<script language="javascript">
+    $(function() {
+<?php
+if ($user) {
+    $friends = array();
+    try {
+        // Proceed knowing you have a logged in user who's authenticated.
+        $data = $GLOBALS['facebook']->api('/' . $user . '/friends');
+        foreach ($data['data'] AS $friend) {
+            $friends[] = array(
+                'value' => $friend['name'],
+                'label' => $friend['name'],
+                'id' => $friend['id'],
+            );
+        }
+    } catch (FacebookApiException $e) {
+        error_log($e);
+    }
+    echo 'var friends = ' . json_encode($friends) . ';';
+    ?>
+          $('.search-query').autocomplete({
+              minLength: 0,
+              source: friends,
+              select: function(event, ui) {
+                  location.href = "<?php echo $this->Html->url('/posts/index/'); ?>" + ui.item.id;
+              }
+          });
+    <?php
+}
+?>
+                
+});
+</script>
   </body>
   
 </html>
