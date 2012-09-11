@@ -60,13 +60,7 @@ $naitik = $facebook->api('/naitik');
     <meta charset="utf-8">
     <!-- metadata -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="css/bootstrap-responsive.min.css">-->
-    <style>
-      body{padding: 41px 0 0 0;overflow: hidden;background: #000;}
-      .navbar .avatar{padding: 6px 0 0 !important;}
-      .navbar .avatar img{width: 30px;height: 30px;}
-      .box{height:1000px;background:url(img/bg2.jpg);-moz-background-size:100% 100%;background-size:100%;background-repeat:no-repeat;}
-    </style>
+    <link rel="stylesheet" href="css/main.css">
     </head>
   <body>
 
@@ -85,7 +79,7 @@ $naitik = $facebook->api('/naitik');
               <li><a href="#about">Super Friends</a></li>
             </ul>
             <form action="" class="navbar-search pull-left">
-              <input type="text" placeholder="Recall Memory" class="search-query">
+              <input type="text" placeholder="Recall Memory" class="search-query" id="test">
             </form>
             <ul class="nav pull-right">
               <?php if ($user): ?>
@@ -106,10 +100,49 @@ $naitik = $facebook->api('/naitik');
       </div>
     </div>
     <div class="box">
-
+      <div class="content clearfix">
+          <div class="post">
+            <div class="item">
+              <div class="shadow"></div>
+              <div class="data">
+                <img src="http://a6.sphotos.ak.fbcdn.net/hphotos-ak-snc7/418819_10151076389362736_1925098142_n.jpg">
+                111111111111
+                <a href="#">2222222222</a>
+              </div>
+            </div>
+            <div class="item">
+              
+            </div>
+          </div>
+          <div class="photo">
+            <div class="item">
+              1
+            </div>
+            <div class="item">
+              1
+            </div>
+          </div>
+          <div class="comment">
+            <div class="item">
+              1
+            </div>
+            <div class="item">
+              1
+            </div>
+          </div>
+          <div class="like">
+            <div class="item">
+              1
+            </div>
+            <div class="item">
+              1
+            </div>
+          </div>
+        </div>
     </div>
 
     <script src="js/jquery-1.8.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
