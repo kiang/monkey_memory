@@ -56,7 +56,7 @@ $fID = $fbid ;
 //$action = $_REQUEST['action'] ;
 $action = 'home' ;
 $offset =  ( isset ( $_REQUEST['offset'] ) )? $_REQUEST['offset'] : 0  ;
-$limit = 5 ;
+$limit = 100 ;
 
 if ( $debug )
 {
