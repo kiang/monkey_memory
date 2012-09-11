@@ -35,9 +35,41 @@ $user = $facebook->getUser();
 if ($user) {
   try {
     // Proceed knowing you have a logged in user who's authenticated.
+	$q = $_GET['q'];
     $user_profile = $facebook->api('/me');
+	$home_info = $facebook->api('/me/home?q=' . $q . '&type=post');
+	//$home_info = $facebook->api('/me/home?q=facebook&type=post');
+	$home_data = $home_info['data'];
+	$result_post = array();
+	foreach ($home_data as $entry) {
+		$result_post[] = array('message' => $entry['message'], 'picture' => $entry['picture'], 'link' => $entry['actions'][0]['link'], 'time' => $entry['created_time']);
+	}
+	
+	
+	
+	$oauth_token = $facebook->getAccessToken();
+	$query = "SELECT+user_id,object_id,post_id,object_type+FROM+like+WHERE+user_id=me()";
+	
+	$url = 'https://graph.facebook.com/' . '/fql?q=' . $query . '&access_token=' . $oauth_token;
+	$obj = json_decode(file_get_contents($url));
+	$data = $obj->data;
+	foreach($data as $entry) {
+		if ($entry->object_type == 'list') {
+//			var_dump($entry);
+		}
+	}
+	
+
+
+//	echo '<pre>';
+	header('Content-type: application/json');
+	echo(json_encode(array('post' => $result_post, 'pictures'=> array(), 'link'=>array(), 'checkins' => array())));
+	exit();
+//	echo '</pre>';
+
+
   } catch (FacebookApiException $e) {
-    error_log($e);
+    var_dump($e);
     $user = null;
   }
 }
@@ -46,7 +78,8 @@ if ($user) {
 if ($user) {
   $logoutUrl = $facebook->getLogoutUrl();
 } else {
-  $loginUrl = $facebook->getLoginUrl();
+	$params = array('scope' => 'read_stream');
+  $loginUrl = $facebook->getLoginUrl($params);
 }
 
 // This call will always work since we are fetching public data.
@@ -60,10 +93,15 @@ $naitik = $facebook->api('/naitik');
     <meta charset="utf-8">
     <!-- metadata -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <!--<link rel="stylesheet" href="css/bootstrap-responsive.min.css">-->
+    <style>
+      body{padding: 41px 0 0 0;overflow: hidden;}
+      .navbar .avatar{padding: 6px 0 0 !important;}
+      .navbar .avatar img{width: 30px;height: 30px;}
+      .box{height:1000px;background:url(img/bg.jpg);-moz-background-size:100% 100%;background-size:100%;background-repeat:no-repeat;}
+    </style>
     </head>
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -72,15 +110,12 @@ $naitik = $facebook->api('/naitik');
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#"><img src="img/logo.png"></a>
+          <a class="brand" href="#">Monkey Memory</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">Total Recall</a></li>
               <li><a href="#about">Super Friends</a></li>
             </ul>
-            <form action="" class="navbar-search pull-left">
-              <input type="text" placeholder="Recall Memory" class="search-query" id="test">
-            </form>
             <ul class="nav pull-right">
               <?php if ($user): ?>
               <li>
@@ -91,7 +126,7 @@ $naitik = $facebook->api('/naitik');
               </li>
               <?php else: ?>
               <li>
-                <a href="<?php echo $loginUrl; ?>"><img src="img/fb_login_icon.gif"></a>
+                <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
               </li>
               <?php endif ?>
             </ul>
@@ -100,50 +135,10 @@ $naitik = $facebook->api('/naitik');
       </div>
     </div>
     <div class="box">
-      <div class="content clearfix">
-          <div class="post">
-            <div class="item">
-              <div class="shadow"></div>
-              <div class="data">
-                <div class="time">2012/08/09</div>
-                <img src="http://a6.sphotos.ak.fbcdn.net/hphotos-ak-snc7/418819_10151076389362736_1925098142_n.jpg">
-                111111111111
-                <a href="#">2222222222</a>
-              </div>
-            </div>
-            <div class="item">
-              
-            </div>
-          </div>
-          <div class="photo">
-            <div class="item">
-              1
-            </div>
-            <div class="item">
-              1
-            </div>
-          </div>
-          <div class="comment">
-            <div class="item">
-              1
-            </div>
-            <div class="item">
-              1
-            </div>
-          </div>
-          <div class="like">
-            <div class="item">
-              1
-            </div>
-            <div class="item">
-              1
-            </div>
-          </div>
-        </div>
+      
     </div>
 
     <script src="js/jquery-1.8.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
   </body>
 </html>
