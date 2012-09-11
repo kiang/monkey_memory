@@ -8,9 +8,9 @@ body{padding: 41px 0 0 0;background: #000;}
 .box .photo{float:left;width:240px;margin:0 10px 0 0;}
 .box .comment{float:left;width:240px;margin:0 10px 0 0;}
 .box .like{float:left;width:240px;}
-.box .content{width:990px;margin:0px auto 0 auto;}
+.box .content{width:1000px;margin:0px auto 0 auto;}
 .box .content .time{font-family: georgia;font-size:16px;}
-.box .content .item{margin:10px 0;position:relative;}
-.box .content .item .data{overflow:hidden;line-height:1.5;color:#fff;padding:15px 15px;width:210px;position: absolute;z-index: 2;}
+.box .content .item{width:230px;margin:10px 10px 10px 0;position:relative;}
+.box .content .item .data{overflow:hidden;line-height:1.5;color:#fff;padding:15px 15px;width:200px;position: absolute;z-index: 2;}
 .box .content .item .data img{display:block;margin:5px 0;}
-.box .content .item .shadow{width:238px;position:absolute;z-index: 2;border:1px solid #999;border-radius:20px;background:#000;opacity: 0.6;}
+.box .content .item .shadow{width:228px;position:absolute;z-index: 2;border:1px solid #999;border-radius:20px;background:#000;opacity: 0.6;}

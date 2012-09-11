@@ -101,49 +101,32 @@ $naitik = $facebook->api('/naitik');
     </div>
     <div class="box">
       <div class="content clearfix">
-          <div class="post">
-            <div class="item">
-              <div class="shadow"></div>
-              <div class="data">
-                <div class="time">2012/08/09</div>
-                <img src="http://a6.sphotos.ak.fbcdn.net/hphotos-ak-snc7/418819_10151076389362736_1925098142_n.jpg">
-                111111111111
-                <a href="#">2222222222</a>
-              </div>
-            </div>
-            <div class="item">
-              
-            </div>
+          <div id="container">
+              <div class="item">1</div>
+              <div class="item">1</div>
+              <div class="item">1</div>
+              <div class="item">1</div>
           </div>
-          <div class="photo">
-            <div class="item">
-              1
-            </div>
-            <div class="item">
-              1
-            </div>
-          </div>
-          <div class="comment">
-            <div class="item">
-              1
-            </div>
-            <div class="item">
-              1
-            </div>
-          </div>
-          <div class="like">
-            <div class="item">
-              1
-            </div>
-            <div class="item">
-              1
-            </div>
-          </div>
-        </div>
+      </div>
     </div>
 
     <script src="js/jquery-1.8.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    
+    <script src="js/modernizr-transitions.js"></script>
+    <script src="js/jquery.masonry.min.js"></script>
     <script src="js/main.js"></script>
+<script>
+  $(function(){
+    
+    var $container = $('#container');
+    
+    $container.masonry({
+      itemSelector: '.item',
+      columnWidth: 240,
+      isAnimated: !Modernizr.csstransitions
+    });
+  });
+</script>
   </body>
 </html>

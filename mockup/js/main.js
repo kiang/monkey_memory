@@ -37,13 +37,15 @@ Monkey.module = {
                         if(response && response.post){
                             var HTML = Monkey.util.render(response.post);
                             $('.content').css('visibility','hidden');
-                            $('.box .post').html(HTML);
+                            $('#container').html(HTML);
                             $('.item').each(function(index,item){
                                 var height = $(item).find('.data').height();
+                                console.log(height);
                                 $(item).height(height+25);
                                 $(item).find('.shadow').height(height+25);
                             });
                             $('.content').css('visibility','visible');
+                            $('#container').masonry( 'reload' );
                         }
                     }
                 })
