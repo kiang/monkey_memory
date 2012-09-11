@@ -75,7 +75,7 @@ $libPath = App::path('Lib');
 
 require $libPath[0] . 'facebook/facebook.php';
 
-$facebook = new Facebook(array(
+$GLOBALS['facebook'] = new Facebook(array(
   'appId'  => Configure::read('Facebook.appId'),
   'secret' => Configure::read('Facebook.secret'),
 ));
