@@ -1,5 +1,4 @@
 <?php
-//echo $fbid;
 
 $debug = 0 ;
 
@@ -12,20 +11,72 @@ $debug = 0 ;
 
 function filter_home( $fdatas, $fid )
 {
+	global $debug ;
 	$r = array()  ;
 
 	foreach ( $fdatas['data'] as $data )
 	{
+		$link = NULL ;
+		$imgUrl = NULL ;
+
+		if ( ! isset ( $data['from']['id'] ) || $data['from']['id'] != $fid )
+			continue ;
+
+		$time = substr($data['created_time'], 0, 10) ;
+		if ( isset($data['message']) )
+		{
+			$message = $data['message'] ;
+		}else if ( isset( $data['story'] ) )
+		{
+			$message = $data['story'] ;
+		}else
+		{
+			continue ;
+		}
+
+echo <<<EOF
+	<div class="item">
+		<div class="shadow"></div>
+		<div class="date">
+			<div class="time">$time</div>
+			<a target="_blank" href="$link"><img src="$imgUrl"></a>
+			$message
+		</div>
+	</div>
+EOF;
+/*
 		$record = array(
-			'message' => $data['message'],
 			'fromID' => $data['from']['id'],
 			'time' => substr($data['created_time'], 0, 10),
 		) ;
+		if ( isset($data['message']) )
+		{
+			$record['message'] = $data['message'] ;
+		}else if ( isset( $data['story'] ) )
+		{
+			$record['message'] = $data['story'] ;
+		}else
+		{
+			if ( $debug ) print_r( $data ) ;
+		}
+		print_r( $data ) ;
 		array_push( $r, $record ) ;
+*/
 	}
 
-	return array( 'post' => $r ) ;
+//	return array( 'post' => $r ) ;
 }
+
+/*
+	<div class="item">
+		<div class="shadow"></div>
+		<div class="date">
+			<div class="time">$time</div>
+			<a target="_blank" href="$link"><img src="$imgUrl"></a>
+			$message
+		</div>
+	</div>
+*/
 
 function filter_likes( $fdata )
 {
