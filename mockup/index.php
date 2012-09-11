@@ -102,10 +102,6 @@ $naitik = $facebook->api('/naitik');
     <div class="box">
       <div class="content clearfix">
           <div id="container">
-              <div class="item">1</div>
-              <div class="item">1</div>
-              <div class="item">1</div>
-              <div class="item">1</div>
           </div>
       </div>
     </div>
