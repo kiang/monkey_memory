@@ -19,8 +19,8 @@ require 'api/facebook.php';
 
 // Create our Application instance (replace this with your appId and secret).
 $facebook = new Facebook(array(
-  'appId'  => '153310081475699',
-  'secret' => 'cf24b60cf2d6c37c72da2bab07bb3ec2',
+  'appId'  => '348442178577820',
+  'secret' => '00d1f3b0e25a33313fcabea8f10f86aa',
 ));
 
 // Get User ID
@@ -94,7 +94,7 @@ $naitik = $facebook->api('/naitik');
               </li>
               <?php else: ?>
               <li>
-                <a href="<?php echo $loginUrl; ?>"><img src="img/fb_login_icon.gif"></a>
+                <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
               </li>
               <?php endif ?>
             </ul>
@@ -103,9 +103,7 @@ $naitik = $facebook->api('/naitik');
       </div>
     </div>
     <div class="box">
-      <form class="navbar-search pull-left">
-        <input type="text" class="search-query" placeholder="Search">
-      </form>
+      
     </div>
 
     <script src="js/jquery-1.8.1.min.js"></script>
