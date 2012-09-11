@@ -22,7 +22,9 @@ if ($user) {
 if ($user) {
   $logoutUrl = $GLOBALS['facebook']->getLogoutUrl();
 } else {
-  $loginUrl = $GLOBALS['facebook']->getLoginUrl();
+  $loginUrl = $GLOBALS['facebook']->getLoginUrl(array(
+      'scope' => array('read_stream',)
+  ));
 }
 ?>
 <!DOCTYPE html>
@@ -60,8 +62,8 @@ if ($user) {
           <a class="brand" href="#"><img src="img/logo.png"></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Total Recall</a></li>
-              <li><a href="#about">Super Friends</a></li>
+              <li><a href="#">Total Recall</a></li>
+              <li class="active"><a href="#about">Super Friends</a></li>
             </ul>
             <form action="" class="navbar-search pull-left">
               <input type="text" placeholder="Recall Memory" class="search-query" id="test">
