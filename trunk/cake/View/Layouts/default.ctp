@@ -38,6 +38,8 @@ if ($user) {
                 echo $this->Html->css('main');
                 echo $this->Html->script('jquery-1.8.1.min');
                 echo $this->Html->script('bootstrap.min');
+                echo $this->Html->script('modernizr-transitions');
+                echo $this->Html->script('jquery.masonry.min');
                 echo $this->Html->script('main');
 
 		echo $this->fetch('meta');
@@ -46,5 +48,47 @@ if ($user) {
 	?>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
     </head>
-  <body><?php echo $this->fetch('content'); ?></body>
+  <body>
+      <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#"><img src="img/logo.png"></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Total Recall</a></li>
+              <li><a href="#about">Super Friends</a></li>
+            </ul>
+            <form action="" class="navbar-search pull-left">
+              <input type="text" placeholder="Recall Memory" class="search-query" id="test">
+            </form>
+            <ul class="nav pull-right">
+              <?php if ($user): ?>
+              <li>
+                <a href="#" class="avatar"><img src="https://graph.facebook.com/<?php echo $user; ?>/picture"></a>
+              </li>
+              <li>
+                <a href="<?php echo $logoutUrl; ?>">Logout</a>
+              </li>
+              <?php else: ?>
+              <li>
+                <a href="<?php echo $loginUrl; ?>"><img src="img/fb_login_icon.gif"></a>
+              </li>
+              <?php endif ?>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div><div class="box friend">
+      <div class="content clearfix">
+          <div id="container">
+              <?php echo $this->fetch('content'); ?>
+          </div>
+      </div>
+    </div>
+  </body>
 </html>
