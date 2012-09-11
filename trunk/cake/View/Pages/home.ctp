@@ -125,7 +125,7 @@ if ($user) {
               minLength: 0,
               source: friends,
               select: function(event, ui) {
-                  location.href = "<?php echo $this->Html->url('/posts/'); ?>" + ui.item.id;
+                  location.href = "<?php echo $this->Html->url('/posts/index/'); ?>" + ui.item.id;
               }
           });
     <?php

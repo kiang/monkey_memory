@@ -13,9 +13,8 @@ class PostsController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$this->Post->recursive = 0;
-		$this->set('posts', $this->paginate());
+	public function index($fbid = 0) {
+		$this->set('fbid', $fbid);
 	}
 
 /**
