@@ -59,7 +59,7 @@ if ($user) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#"><img src="img/logo.png"></a>
+          <a class="brand" href="#"><img src="<?php echo $this->Html->url('/'); ?>img/logo.png"></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="#">Total Recall</a></li>
@@ -78,7 +78,7 @@ if ($user) {
               </li>
               <?php else: ?>
               <li>
-                <a href="<?php echo $loginUrl; ?>"><img src="img/fb_login_icon.gif"></a>
+                <a href="<?php echo $loginUrl; ?>"><img src="<?php echo $this->Html->url('/'); ?>img/fb_login_icon.gif"></a>
               </li>
               <?php endif ?>
             </ul>
