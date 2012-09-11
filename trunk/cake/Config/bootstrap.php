@@ -70,3 +70,12 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+
+$libPath = App::path('Lib');
+
+require $libPath[0] . 'facebook/facebook.php';
+
+$facebook = new Facebook(array(
+  'appId'  => Configure::read('Facebook.appId'),
+  'secret' => Configure::read('Facebook.secret'),
+));
