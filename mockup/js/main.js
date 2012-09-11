@@ -28,7 +28,7 @@ Monkey.module = {
                 e.preventDefault();
                 //ajax search
                 $.ajax({
-                    url:"ajax.php",
+                    url:"ajax.php?q="+$(dModule).val(),
                     error: function() {
                         // 
                     },
