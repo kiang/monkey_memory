@@ -35,35 +35,48 @@ $user = $facebook->getUser();
 if ($user) {
   try {
     // Proceed knowing you have a logged in user who's authenticated.
-	$q = $_GET['q'];
     $user_profile = $facebook->api('/me');
+
+	// get query
+	$q = $_GET['q'];
+	// parse home page info
 	$home_info = $facebook->api('/me/home?q=' . $q . '&type=post');
 	//$home_info = $facebook->api('/me/home?q=facebook&type=post');
 	$home_data = $home_info['data'];
 	$result_post = array();
 	foreach ($home_data as $entry) {
-		$result_post[] = array('message' => $entry['message'], 'picture' => $entry['picture'], 'link' => $entry['actions'][0]['link'], 'time' => $entry['created_time']);
+		$result_post[] = array('message' => $entry['message'], 'picture' => $entry['picture'], 'link' => $entry['actions'][0]['link'], 'time' => date('Y/M/d h:m:s', strtotime($entry['created_time'])));
 	}
 	
-	
-	
-	$oauth_token = $facebook->getAccessToken();
-	$query = "SELECT+user_id,object_id,post_id,object_type+FROM+like+WHERE+user_id=me()";
-	
-	$url = 'https://graph.facebook.com/' . '/fql?q=' . $query . '&access_token=' . $oauth_token;
-	$obj = json_decode(file_get_contents($url));
-	$data = $obj->data;
-	foreach($data as $entry) {
-		if ($entry->object_type == 'list') {
+	// likes
+//	$like_info = $facebook->api('/me/likes');
+//	$like_data = $like_info['data'];
+//	$result_like = array();
+//	foreach ($like_data as $entry) {
+//		if (stripos($entry['name'], $q) !== false) {
+//			$result_like[] = array('message' => $entry['name'], 'picture' => '', 'link' => '', 'time' => $entry['created_time']);
 //			var_dump($entry);
-		}
-	}
+//		}
+//	}
+	
+	
+//	$oauth_token = $facebook->getAccessToken();
+//	$query = "SELECT+user_id,object_id,post_id,object_type+FROM+like+WHERE+user_id=me()";
+//	
+//	$url = 'https://graph.facebook.com/' . '/fql?q=' . $query . '&access_token=' . $oauth_token;
+//	$obj = json_decode(file_get_contents($url));
+//	$data = $obj->data;
+//	foreach($data as $entry) {
+//		if ($entry->object_type == 'list') {
+//			var_dump($entry);
+//		}
+//	}
 	
 
 
 //	echo '<pre>';
 	header('Content-type: application/json');
-	echo(json_encode(array('post' => $result_post, 'pictures'=> array(), 'link'=>array(), 'checkins' => array())));
+	echo(json_encode(array('post' => $result_post, 'likes'=> $result_like, 'photo'=>array(), 'checkins' => array())));
 	exit();
 //	echo '</pre>';
 
