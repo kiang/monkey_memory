@@ -1,59 +1,128 @@
 <?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
+// Get User ID
+$user = $GLOBALS['facebook']->getUser();
+
+// We may or may not have this data based on whether the user is logged in.
+//
+// If we have a $user id here, it means we know the user is logged into
+// Facebook, but we don't know if the access token is valid. An access
+// token is invalid if the user logged out of Facebook.
+
+if ($user) {
+  try {
+    // Proceed knowing you have a logged in user who's authenticated.
+    $user_profile = $GLOBALS['facebook']->api('/me');
+  } catch (FacebookApiException $e) {
+    error_log($e);
+    $user = null;
+  }
+}
+
+// Login or logout url will be needed depending on current user state.
+if ($user) {
+  $logoutUrl = $GLOBALS['facebook']->getLogoutUrl();
+} else {
+  $loginUrl = $GLOBALS['facebook']->getLoginUrl();
+}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo __('CakePHP: the rapid development php framework:'); ?>
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Monkey Memory</title>
+    <meta charset="utf-8">
+    <!-- metadata -->
+    <?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('bootstrap.min');
+                echo $this->Html->css('main');
+                echo $this->Html->script('jquery-1.8.1.min');
+                echo $this->Html->script('bootstrap.min');
+                echo $this->Html->script('main');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
-</head>
-<body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework'), 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+    </head>
+  <body>
 
-			<?php echo $this->Session->flash(); ?>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Monkey Memory</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Total Recall</a></li>
+              <li><a href="#about">Super Friends</a></li>
+            </ul>
+            <form action="" class="navbar-search pull-left">
+              <input type="text" placeholder="Recall Memory" class="search-query" id="test">
+            </form>
+            <ul class="nav pull-right">
+              <?php if ($user): ?>
+              <li>
+                <a href="#" class="avatar"><img src="https://graph.facebook.com/<?php echo $user; ?>/picture"></a>
+              </li>
+              <li>
+                <a href="<?php echo $logoutUrl; ?>">Logout</a>
+              </li>
+              <?php else: ?>
+              <li>
+                <a href="<?php echo $loginUrl; ?>">Login</a>
+              </li>
+              <?php endif ?>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="content clearfix">
+          <div class="post">
+            <div class="item">
+              <div class="shadow"></div>
+              <div class="data">
+                <img src="http://a6.sphotos.ak.fbcdn.net/hphotos-ak-snc7/418819_10151076389362736_1925098142_n.jpg">
+                111111111111
+                <a href="#">2222222222</a>
+              </div>
+            </div>
+            <div class="item">
+              
+            </div>
+          </div>
+          <div class="photo">
+            <div class="item">
+              1
+            </div>
+            <div class="item">
+              1
+            </div>
+          </div>
+          <div class="comment">
+            <div class="item">
+              1
+            </div>
+            <div class="item">
+              1
+            </div>
+          </div>
+          <div class="like">
+            <div class="item">
+              1
+            </div>
+            <div class="item">
+              1
+            </div>
+          </div>
+        </div>
+    </div>
 
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => __('CakePHP: the rapid development php framework'), 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
-	</div>
-	<?php echo $this->element('sql_dump'); ?>
-</body>
+  </body>
 </html>
