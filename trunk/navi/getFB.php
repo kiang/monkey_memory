@@ -9,52 +9,6 @@ $debug = 1 ;
 		offset=[0|100|200|...]
 */
 
-$facebook = $GLOBAL['facebook'] ;
-
-$fID = $_REQUEST['fID'] ;
-$action = $_REQUEST['action'] ;
-$offset =  ( isset ( $_REQUEST['offset'] ) )? $_REQUEST['offset'] : 0  ;
-$limit = 100 ;
-
-if ( $debug )
-{
-	echo "<h2> Friend ID: $fID</h2>\n" ;
-	echo "<h2> Action: $action</h2>\n" ;
-	echo "<h2> Offset: $offset</h2>\n" ;
-	echo "<h2> Limit: $limit</h2>\n" ;
-}
-
-
-$cmds = array( $action ) ;
-
-foreach ( $cmds as $cmd )
-{
-	$fbCmd = "/$fID/$cmd" ;
-
-	if ( $cmd == 'home' )
-	{
-		$fbCmd = '/me/home' ;
-	}
-	echo "<h2> $fbCmd </h2>\n" ;
-
-	$ftmp = $facebook->api("$fbCmd?offset=$offset&limit=$limit") ;
-
-	$r = NULL ;
-	switch ( $cmd )
-	{
-		case 'home':
-			$r = filter_home($ftmp, $fID) ;
-		case 'likes':
-			$r = filter_likes($ftmp) ;
-		case 'locations':
-		case 'photos':
-	}
-
-	if ( $debug )
-		print_r( $r ) ;
-}
-
-
 function filter_home( $fdatas, $fid )
 {
 	$r = array()  ;
@@ -94,3 +48,56 @@ function filter_likes( $fdata )
 
 	return array( 'likes' => $r ) ;
 }
+
+$facebook = $GLOBAL['facebook'] ;
+
+$fID = $_REQUEST['fID'] ;
+$action = $_REQUEST['action'] ;
+$offset =  ( isset ( $_REQUEST['offset'] ) )? $_REQUEST['offset'] : 0  ;
+$limit = 100 ;
+
+if ( $debug )
+{
+	echo "<h2> Friend ID: $fID</h2>\n" ;
+	echo "<h2> Action: $action</h2>\n" ;
+	echo "<h2> Offset: $offset</h2>\n" ;
+	echo "<h2> Limit: $limit</h2>\n" ;
+}
+
+
+$cmds = array( $action ) ;
+
+$r = NULL ;
+
+foreach ( $cmds as $cmd )
+{
+	$fbCmd = "/$fID/$cmd" ;
+
+	if ( $cmd == 'home' )
+	{
+		$fbCmd = '/me/home' ;
+	}
+
+	if ( $debug )
+		echo "<h2> $fbCmd </h2>\n" ;
+
+	$ftmp = $facebook->api("$fbCmd?offset=$offset&limit=$limit") ;
+
+	$tmpR = NULL ;
+	switch ( $cmd )
+	{
+		case 'home':
+			$r = filter_home($ftmp, $fID) ;
+		case 'likes':
+			$r = filter_likes($ftmp) ;
+		case 'locations':
+		case 'photos':
+	}
+
+}
+
+if ( $debug )
+	print_r( $r ) ;
+
+
+
