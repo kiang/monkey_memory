@@ -42,7 +42,6 @@ if ($user) {
                 echo $this->Html->script('bootstrap.min');
                 echo $this->Html->script('modernizr-transitions');
                 echo $this->Html->script('jquery.masonry.min');
-                echo $this->Html->script('main');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -92,6 +91,9 @@ if ($user) {
           </div>
       </div>
     </div>
+      <?php
+      echo $this->Html->script('main');
+      ?>
       <script>
   $(function(){
     
