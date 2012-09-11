@@ -1,111 +1,136 @@
+<?php
+// Get User ID
+$user = $GLOBALS['facebook']->getUser();
 
-<iframe src="http://cakephp.org/bake-banner" width="830" height="160" style="overflow:hidden; border:none;">
-	<p>For updates and important announcements, visit http://cakefest.org</p>
-</iframe>
-<h2>Sweet, "Cake" got Baked by CakePHP!</h2>
+// We may or may not have this data based on whether the user is logged in.
+//
+// If we have a $user id here, it means we know the user is logged into
+// Facebook, but we don't know if the access token is valid. An access
+// token is invalid if the user logged out of Facebook.
 
-<?php
-App::uses('Debugger', 'Utility');
-if (Configure::read('debug') > 0):
-	Debugger::checkSecurityKeys();
-endif;
+if ($user) {
+    try {
+        // Proceed knowing you have a logged in user who's authenticated.
+        $user_profile = $GLOBALS['facebook']->api('/me');
+    } catch (FacebookApiException $e) {
+        error_log($e);
+        $user = null;
+    }
+}
+
+// Login or logout url will be needed depending on current user state.
+if ($user) {
+    $logoutUrl = $GLOBALS['facebook']->getLogoutUrl();
+} else {
+    $loginUrl = $GLOBALS['facebook']->getLoginUrl();
+}
 ?>
-<p>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Monkey Memory</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Total Recall</a></li>
+                    <li><a href="#about">Super Friends</a></li>
+                </ul>
+                <form action="" class="navbar-search pull-left">
+                    <input type="text" placeholder="Recall Memory" class="search-query" id="test">
+                </form>
+                <ul class="nav pull-right">
+                    <?php if ($user): ?>
+                        <li>
+                            <a href="#" class="avatar"><img src="https://graph.facebook.com/<?php echo $user; ?>/picture"></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $logoutUrl; ?>">Logout</a>
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <a href="<?php echo $loginUrl; ?>">Login</a>
+                        </li>
+                    <?php endif ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="content clearfix">
+        <div class="post">
+            <div class="item">
+                <div class="shadow"></div>
+                <div class="data">
+                    <img src="http://a6.sphotos.ak.fbcdn.net/hphotos-ak-snc7/418819_10151076389362736_1925098142_n.jpg">
+                    111111111111
+                    <a href="#">2222222222</a>
+                </div>
+            </div>
+            <div class="item">
+
+            </div>
+        </div>
+        <div class="photo">
+            <div class="item">
+                1
+            </div>
+            <div class="item">
+                1
+            </div>
+        </div>
+        <div class="comment">
+            <div class="item">
+                1
+            </div>
+            <div class="item">
+                1
+            </div>
+        </div>
+        <div class="like">
+            <div class="item">
+                1
+            </div>
+            <div class="item">
+                1
+            </div>
+        </div>
+    </div>
+</div>
+<script language="javascript">
+    $(function() {
 <?php
-	if (version_compare(PHP_VERSION, '5.2.8', '>=')):
-		echo '<span class="notice success">';
-			echo __d('cake_dev', 'Your version of PHP is 5.2.8 or higher.');
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your version of PHP is too low. You need PHP 5.2.8 or higher to use CakePHP.');
-		echo '</span>';
-	endif;
+if ($user) {
+    $friends = array();
+    try {
+        // Proceed knowing you have a logged in user who's authenticated.
+        $data = $GLOBALS['facebook']->api('/' . $user . '/friends');
+        foreach ($data['data'] AS $friend) {
+            $friends[] = array(
+                'value' => $friend['name'],
+                'label' => $friend['name'],
+                'id' => $friend['id'],
+            );
+        }
+    } catch (FacebookApiException $e) {
+        error_log($e);
+    }
+    echo 'var friends = ' . json_encode($friends) . ';';
+    ?>
+          $('.search-query').autocomplete({
+              minLength: 0,
+              source: friends,
+              select: function(event, ui) {
+                  location.href = "<?php echo $this->Html->url('/posts/'); ?>" + ui.item.id;
+              }
+          });
+    <?php
+}
 ?>
-</p>
-<p>
-<?php
-	if (is_writable(TMP)):
-		echo '<span class="notice success">';
-			echo __d('cake_dev', 'Your tmp directory is writable.');
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your tmp directory is NOT writable.');
-		echo '</span>';
-	endif;
-?>
-</p>
-<p>
-<?php
-	$settings = Cache::settings('_cake_core_');
-	if (!empty($settings)):
-		echo '<span class="notice success">';
-				echo __d('cake_dev', 'The %s is being used for core caching. To change the config edit APP/Config/core.php ', '<em>'. $settings['engine'] . 'Engine</em>');
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your cache is NOT working. Please check the settings in APP/Config/core.php');
-		echo '</span>';
-	endif;
-?>
-</p>
-<p>
-<?php
-	$filePresent = null;
-	if (file_exists(APP . 'Config' . DS . 'database.php')):
-		echo '<span class="notice success">';
-			echo __d('cake_dev', 'Your database configuration file is present.');
-			$filePresent = true;
-		echo '</span>';
-	else:
-		echo '<span class="notice">';
-			echo __d('cake_dev', 'Your database configuration file is NOT present.');
-			echo '<br/>';
-			echo __d('cake_dev', 'Rename APP/Config/database.php.default to APP/Config/database.php');
-		echo '</span>';
-	endif;
-?>
-</p>
-<?php
-if (isset($filePresent)):
-	App::uses('ConnectionManager', 'Model');
-	try {
-		$connected = ConnectionManager::getDataSource('default');
-	} catch (Exception $e) {
-		$connected = false;
-	}
-?>
-<p>
-	<?php
-		if ($connected && $connected->isConnected()):
-			echo '<span class="notice success">';
-	 			echo __d('cake_dev', 'Cake is able to connect to the database.');
-			echo '</span>';
-		else:
-			echo '<span class="notice">';
-				echo __d('cake_dev', 'Cake is NOT able to connect to the database.');
-			echo '</span>';
-		endif;
-	?>
-</p>
-<?php endif;?>
-<?php
-	App::uses('Validation', 'Utility');
-	if (!Validation::alphaNumeric('cakephp')) {
-		echo '<p><span class="notice">';
-		__d('cake_dev', 'PCRE has not been compiled with Unicode support.');
-		echo '<br/>';
-		__d('cake_dev', 'Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring');
-		echo '</span></p>';
-	}
-?>
-<h3><?php echo __d('cake_dev', 'Editing this Page'); ?></h3>
-<p>
-<?php
-	echo __d('cake_dev', 'To change the content of this page, edit: %s
-		To change its layout, edit: %s
-		You can also add some CSS styles for your pages at: %s',
-		APP . 'View' . DS . 'Pages' . DS . 'home.ctp.<br />',  APP . 'View' . DS . 'Layouts' . DS . 'default.ctp.<br />', APP . 'webroot' . DS . 'css');
-?>
-</p>
+                
+});
+</script>
