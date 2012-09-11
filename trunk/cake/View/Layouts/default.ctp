@@ -92,5 +92,18 @@ if ($user) {
           </div>
       </div>
     </div>
+      <script>
+  $(function(){
+    
+    var $container = $('#container');
+    
+    $container.masonry({
+      itemSelector: '.item',
+      columnWidth: 240,
+      isAnimated: !Modernizr.csstransitions
+    });
+  });
+</script>
   </body>
+  
 </html>
