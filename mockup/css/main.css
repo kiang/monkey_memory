@@ -1,13 +1,16 @@
 body{padding: 41px 0 0 0;background: #000;}
 .navbar .avatar{padding: 6px 0 0 !important;}
 .navbar .avatar img{width: 30px;height: 30px;}
-.box{height:1000px;background:url(../img/bg.jpg);-moz-background-size:100% 100%;background-size:100%;background-repeat:no-repeat;background-attachment:fixed;}
-.box.friend{background:url(../img/bg2.jpg);}
+.navbar .brand{padding:1px 20px 0 !important;}
+.box{height:1000px;background:url(../img/bg.jpg) no-repeat;-moz-background-size:100% 100%;background-size:100%;background-attachment:fixed;}
+.box.friend{background-image:url(../img/bg2.jpg);}
 .box .post{float:left;width:240px;margin:0 10px 0 0;}
 .box .photo{float:left;width:240px;margin:0 10px 0 0;}
 .box .comment{float:left;width:240px;margin:0 10px 0 0;}
 .box .like{float:left;width:240px;}
 .box .content{width:990px;margin:0px auto 0 auto;}
+.box .content .time{font-family: georgia;font-size:16px;}
 .box .content .item{margin:10px 0;height:360px;position:relative;}
-.box .content .item .data{color:#fff;padding:15px 15px;width:210px;height:320px;position: absolute;z-index: 2;}
+.box .content .item .data{overflow:hidden;line-height:1.5;color:#fff;padding:15px 15px;width:210px;height:320px;position: absolute;z-index: 2;}
+.box .content .item .data img{display:block;margin:5px 0;}
 .box .content .item .shadow{width:238px;height:360px;position: absolute;z-index: 2;border:1px solid #999;border-radius:20px;background:#000;opacity: 0.6;}

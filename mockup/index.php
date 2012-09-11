@@ -72,7 +72,7 @@ $naitik = $facebook->api('/naitik');
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Monkey Memory</a>
+          <a class="brand" href="#"><img src="img/logo.png"></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">Total Recall</a></li>
@@ -105,6 +105,7 @@ $naitik = $facebook->api('/naitik');
             <div class="item">
               <div class="shadow"></div>
               <div class="data">
+                <div class="time">2012/08/09</div>
                 <img src="http://a6.sphotos.ak.fbcdn.net/hphotos-ak-snc7/418819_10151076389362736_1925098142_n.jpg">
                 111111111111
                 <a href="#">2222222222</a>
