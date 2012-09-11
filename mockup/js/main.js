@@ -9,7 +9,7 @@ Monkey.util = {
                 '  <div class="shadow"></div>',
                 '  <div class="data">',
                 '    <div class="time">'+data[i].time+'</div>',
-                '    <a href="'+data[i].link+'"><img src="'+data[i].picture+'"></a>',
+                '    <a target="_blank" href="'+data[i].link+'"><img src="'+data[i].picture+'"></a>',
                 '    '+data[i].message,
                 '  </div>',
                 '</div>'
@@ -36,7 +36,14 @@ Monkey.module = {
                         //render post
                         if(response && response.post){
                             var HTML = Monkey.util.render(response.post);
+                            $('.content').css('visibility','hidden');
                             $('.box .post').html(HTML);
+                            $('.item').each(function(index,item){
+                                var height = $(item).find('.data').height();
+                                $(item).height(height+25);
+                                $(item).find('.shadow').height(height+25);
+                            });
+                            $('.content').css('visibility','visible');
                         }
                     }
                 })
